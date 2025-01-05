@@ -3,12 +3,13 @@ import Search from '../Components/Search';
 import Hero from '../Components/Hero';
 import axiosInstance from '../request/axios';
 import { Puff } from 'react-loader-spinner';
-import { HeaderSearch, ThemeContext } from '../App';
+import { HeaderSearch, ThemeContext, UserID } from '../App';
 import NotFound from '../assets/images/notFound.png';
 import { useNavigate } from 'react-router-dom';
 import ToCart from '../Components/ToCart';
 import Advertisement from '../Components/Advertisement';
 import Logo from '../assets/images/logo.png';
+
 const Home = () => {
     const { headerSearch } = useContext(HeaderSearch);
     const { theme } = useContext(ThemeContext);
@@ -16,8 +17,10 @@ const Home = () => {
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [showModal, setShowModal] = useState(true);
-    const [userId, setUserId] = useState(null);
+    const { userId, setUserId } = useContext(UserID)
+
     const navigate = useNavigate();
+
     useEffect(() => {
         setLoading(true);
         axiosInstance
@@ -33,15 +36,17 @@ const Home = () => {
             })
             .finally(() => setLoading(false));
     }, []);
+
     useEffect(() => {
         const tg = window.Telegram?.WebApp;
 
         if (tg && tg.initDataUnsafe?.user?.id) {
             setUserId(tg.initDataUnsafe.user.id);
         } else {
-            setUserId('salom');
+            setUserId('null');
         }
     }, []);
+
     useEffect(() => {
         if (headerSearch) {
             setFilteredData(
@@ -53,6 +58,7 @@ const Home = () => {
             setFilteredData(data);
         }
     }, [headerSearch, data]);
+
     useEffect(() => {
         const isFirstVisit = localStorage.getItem('isFirstVisit');
         if (!isFirstVisit) {
@@ -62,6 +68,7 @@ const Home = () => {
             setShowModal(false);
         }
     }, []);
+
     useEffect(() => {
         if (showModal) {
             const timer = setTimeout(() => {
@@ -70,9 +77,11 @@ const Home = () => {
             return () => clearTimeout(timer);
         }
     }, [showModal]);
+
     function handleRedirect(id) {
         navigate(`/product/${id}`);
     }
+
     return (
         <div
             className={`flex flex-col mx-auto ${theme === 'light'

@@ -11,11 +11,13 @@ import MainLayout from './layout/MainLayout';
 
 export const HeaderSearch = createContext(null);
 export const ThemeContext = createContext(null);
+export const UserID = createContext(null)
 
 function App() {
   const [headerSearch, setHeaderSearch] = useState('');
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
-
+  const [userId, setUserId] = useState(6289101800)
+  
   useEffect(() => {
     const body = document.body;
     if (theme === 'light') {
@@ -32,15 +34,17 @@ function App() {
   return (
     <HeaderSearch.Provider value={{ headerSearch, setHeaderSearch }}>
       <ThemeContext.Provider value={{ theme, setTheme }}>
-        <Routes>
-          <Route index element={<MainLayout><Home /></MainLayout>} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/promotion/:id" element={<Promotion />} />
-          <Route path="/product/:id" element={<MainLayout><Product /></MainLayout>} />
-          <Route path="/product/details/:id" element={<ProductDetails />} />
-          <Route path="/order" element={<Order />} />
-          <Route path="*" element={<MainLayout><ErrorPage /></MainLayout>} />
-        </Routes>
+        <UserID.Provider value={{ userId, setUserId }}>
+          <Routes>
+            <Route index element={<MainLayout><Home /></MainLayout>} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/promotion/:id" element={<Promotion />} />
+            <Route path="/product/:id" element={<MainLayout><Product /></MainLayout>} />
+            <Route path="/product/details/:id" element={<ProductDetails />} />
+            <Route path="/order" element={<Order />} />
+            <Route path="*" element={<MainLayout><ErrorPage /></MainLayout>} />
+          </Routes>
+        </UserID.Provider>
       </ThemeContext.Provider>
     </HeaderSearch.Provider>
   );
