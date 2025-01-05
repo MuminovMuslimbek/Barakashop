@@ -2,29 +2,31 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../request/axios";
 import { ToastContainer, toast } from "react-toastify";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import PrevBlack from "../assets/images/left_black.png";
-import PrevWhite from "../assets/images/left_white.png";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import PrevBlack from '../assets/images/left_black.png';
+import PrevWhite from '../assets/images/left_white.png';
 
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-import "./detail.css";
+import './detail.css';
 import { ThemeContext } from "../App";
 
 function ProductDetails() {
   const [data, setData] = useState(null);
-  const [selectorColor, setSelectorColor] = useState("");
-  const [selectorSize, setSelectorSize] = useState("");
+  const [selectorColor, setSelectorColor] = useState(null);
+  const [selectorSize, setSelectorSize] = useState(null);
   const [isDisable, setIsDisable] = useState(false);
   const { theme } = useContext(ThemeContext);
+  console.log(data)
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const notify = (message, type = "success", options = {}) => {
-    toast[type || "success"](message, {
+  const notify = (message, type = 'success', options = {}) => {
+    const toastMethod = toast[type] || toast.success;
+    toastMethod(message, {
       position: "top-center",
       autoClose: 3000,
       hideProgressBar: false,
@@ -33,6 +35,8 @@ function ProductDetails() {
       draggable: true,
       progress: undefined,
       theme: "dark",
+      transition: toast.Bounce,
+      className: 'custom-toast',
       ...options,
     });
   };
@@ -40,22 +44,24 @@ function ProductDetails() {
   useEffect(() => {
     axiosInstance
       .get(`product_detail/${id}`)
-      .then((response) => setData(response.data))
-      .catch(() => {
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
         notify("Mahsulot ma'lumotlarini olishda xatolik yuz berdi.", "error");
       });
   }, [id]);
 
   const handleAddCart = () => {
     if (!selectorColor) {
-      notify("Iltimos mahsulotni rangini tanlang!", "error");
+      notify('Iltimos mahsulotni rangini tanlang!', 'error');
       return;
     }
     if (!selectorSize) {
-      notify("Iltimos mahsulotni o'lchamini tanlang!", "error");
+      notify('Iltimos mahsulotni o\'lchamini tanlang!', 'error');
       return;
     }
-
     setIsDisable(true);
 
     const CartProduct = {
@@ -66,24 +72,27 @@ function ProductDetails() {
       quantity: 1,
     };
 
-    axiosInstance
-      .post("cart/", CartProduct, {
-        headers: { "Content-Type": "application/json" },
-      })
+    axiosInstance.post('/cart/', CartProduct, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
       .then(() => {
-        notify("Mahsulot savatchaga qo'shildi!", "success", {
-          onClose: () => navigate(-1),
-        });
+        notify('Mahsulot savatchaga qo\'shildi!', 'success', {
+          onClose: () => {
+            dispatch(clear());
+            navigate(-1);
+          },
+        })
       })
-      .catch(() => {
-        notify("Xatolik yuz berdi. Iltimos qayta urinib ko'ring.", "error");
+      .catch((error) => {
+        notify('Xatolik yuz berdi. Iltimos qayta urinib ko\'ring.', 'error');
+        console.error(error);
       })
       .finally(() => {
         setIsDisable(false);
       });
   };
-
-  const handleGoBack = () => navigate(-1);
 
   return (
     <div className="bg-white dark:bg-black mx-auto max-w-[600px] min-h-dvh text-black dark:text-white">
@@ -91,48 +100,65 @@ function ProductDetails() {
       {data && (
         <>
           <div className="m-auto w-full overflow-hidden">
-            <div className="relative flex items-center">
+            <div className="relative flex items-center overflow-x-auto overflow-y-hidden">
               <Swiper
                 spaceBetween={30}
                 centeredSlides={false}
                 pagination={{ clickable: true }}
                 modules={[Autoplay, Pagination, Navigation]}
-                className={`shadow-xl mb-2 detail mySwiper`}
+                className="shadow-xl mb-2 detail mySwiper"
               >
-                {data.product_images?.map((image, idx) => (
-                  <SwiperSlide key={idx} className="rounded-b-lg w-full h-96">
-                    <img
-                      className={`rounded-b-lg w-full h-96 object-contain ${data.age_group !== "all" ? "blur-md" : ""
-                        }`}
-                      src={image.image || data.category.image}
-                      alt="Mahsulot rasmi"
-                    />
-                  </SwiperSlide>
-                ))}
+                {
+                  data.product_images.length > 0 ?
+                    data.product_images.map((value, idx) => (
+                      <SwiperSlide
+                        key={idx}
+                        className="relative z-50 rounded-b-lg w-full h-96 object-center"
+                      >
+                        <img
+                          className="rounded-b-lg w-full h-96 object-center"
+                          src={value.image}
+                          alt="Mahsulot rasmi"
+                        />
+                      </SwiperSlide>
+                    )) :
+                    <SwiperSlide className="relative z-50 rounded-b-lg w-full h-96 object-center">
+                      <img
+                        className="rounded-b-lg w-full h-96 object-center"
+                        src={data.category.image}
+                        alt="Mahsulot rasmi"
+                      />
+                    </SwiperSlide>
+                }
               </Swiper>
               <button
-                onClick={handleGoBack}
+                onClick={() => { navigate(-1) }}
                 className="top-2 left-2 z-50 absolute bg-black dark:bg-white p-2 rounded-lg"
               >
                 <img
-                  src={theme === "light" ? PrevWhite : PrevBlack}
+                  src={theme === 'light' ? PrevWhite : PrevBlack}
                   className="w-6"
                   alt="Orqaga"
                 />
               </button>
+              {data.promotion?.map((promo, idx) => (
+                <div
+                  key={promo.id || idx}
+                  className="top-3 left-16 z-30 absolute bg-[#00C17B] rounded-md"
+                  style={{ backgroundImage: `url(${promo.image})` }}
+                >
+                  <p className="px-2 rounded-md text-[12px] text-white">{promo.name}</p>
+                </div>
+              ))}
             </div>
             <div className="p-4">
               <h3 className="mb-2 font-semibold text-[22px]">{data.name}</h3>
               <p className="text-gray-400 text-sm">{data.description}</p>
               <div className="flex flex-col items-start bg-[#e7e7e7] dark:bg-[#1D2024] mt-5 mb-4 px-4 py-5 rounded-lg">
-                <span className="font-bold text-[#00C17B] text-2xl">
-                  {data.discount_price}
-                </span>
-                <div className="flex gap-3">
+                <span className="font-bold text-[#00C17B] text-2xl">{data.discount_price}</span>
+                <div className="flex justify-start items-center gap-3">
                   <span className="text-gray-500 line-through">{data.price}</span>
-                  <span className="font-bold text-[#00C17B]">
-                    -{data.discount_percentage}%
-                  </span>
+                  <span className="font-bold text-[#00C17B]">-{data.discount_percentage}%</span>
                 </div>
               </div>
             </div>
@@ -141,46 +167,48 @@ function ProductDetails() {
             <button
               disabled={isDisable}
               onClick={handleAddCart}
-              className="bg-black dark:bg-white disabled:opacity-70 py-2 rounded w-full font-semibold text-white dark:text-black"
+              className="bg-black dark:bg-white disabled:opacity-70 py-2 rounded w-full font-semibold text-white dark:text-black disabled:cursor-not-allowed"
             >
               Savatga qo'shish
             </button>
           </div>
           <div className="bg-[#e7e7e7] dark:bg-[#1D2024] mx-auto mb-14 p-4 w-full max-h-[300px]">
             <h3 className="mb-2 font-semibold text-lg">
-              Rang:{" "}
-              {selectorColor[1] || (
-                <span className="text-[#DC0005]">tanlanmagan</span>
-              )}
+              Rang: {selectorColor?.[1] || <span className="text-[#fe2c30]">yoq</span>}
             </h3>
-            <div className="flex space-x-4">
+            <div className="flex justify-start space-x-4">
               {data.color?.map((color) => (
                 <div
                   key={color.id}
                   onClick={() => setSelectorColor([color.id, color.name])}
-                  className={`rounded-lg w-16 h-20 cursor-pointer ${selectorColor?.[0] === color.id
-                    ? "border-4 dark:border-gray-300 border-gray-800"
-                    : ""
+                  className={`rounded-lg w-16 h-20 cursor-pointer ${selectorColor?.[0] === color.id ? "border-4 dark:border-gray-300 border-gray-800" : ""
                     }`}
                   style={{
                     backgroundImage: `url(${color.image || data.category.image})`,
                     backgroundSize: "cover",
+                    backgroundPosition: "center",
                   }}
-                />
-              ))}
-
-              {data.size?.map((size) => (
-                <button
-                  key={size.id}
-                  onClick={() => setSelectorSize([size.id, size.name])}
-                  className={`dark:bg-gray-600 bg-gray-300 text-gray-600 dark:text-gray-200 border-md dark:border-white rounded-lg w-12 h-14 font-medium text-sm ${selectorSize?.[0] === size.id
-                    ? "border-4 border-gray-800 dark:border-gray-300"
-                    : ""
-                    }`}
                 >
-                  {size.size_name.toUpperCase()}
-                </button>
+                  <span className="sr-only">{color.name}</span>
+                </div>
               ))}
+            </div>
+            <div className="mt-6">
+              <h3 className="mb-2 font-semibold text-lg">
+                O'lchami: {selectorSize?.[1] ? <span className="uppercase">{selectorSize[1]}</span> : <span className="text-[#fe2c30]">yoq</span>}
+              </h3>
+              <div className="flex justify-start space-x-2 mb-2">
+                {data.size?.map((size) => (
+                  <button
+                    key={size.id}
+                    onClick={() => setSelectorSize([size.id, size.size_name])}
+                    className={`dark:bg-gray-600 bg-gray-300 text-gray-600 border-black border-opacity-70 border dark:border-white dark:text-gray-200 rounded-lg w-12 h-14 font-medium text-sm ${selectorSize?.[0] === size.id ? "border-4 border-gray-800 dark:border-gray-300" : ""
+                      }`}
+                  >
+                    {size.size_name.toUpperCase()}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </>
