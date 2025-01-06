@@ -156,10 +156,9 @@ function Cart() {
               <span>Buyurtma miqdori</span>
               <p>
                 {cartItems.reduce((acc, item) => {
-                  const discountPrice = Number(item?.product?.discount_price) || 0;
-                  const count = Number(item?.count) || 0;
-                  return acc + discountPrice * count;
-                }, 0)} UZS
+                  const count = Number(item?.quantity) || 0;
+                  return  count;
+                }, 0)} 
               </p>
             </div>
             <hr className="border-[#484A4E]" />
@@ -173,8 +172,8 @@ function Cart() {
             <p>
               {cartItems.reduce((acc, item) => {
                 const discountPrice = Number(item?.product?.discount_price) || 0;
-                const count = Number(item?.count) || 0;
-                return acc + discountPrice * count;
+                const count = Number(item?.quantity) || 0;
+                return Math.trunc(acc + discountPrice * count);
               }, 0)} UZS
             </p>
           </div>

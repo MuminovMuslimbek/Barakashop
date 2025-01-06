@@ -5,7 +5,7 @@ import axiosInstance from '../request/axios';
 import { Puff } from 'react-loader-spinner';
 import { HeaderSearch, ThemeContext, UserID } from '../App';
 import NotFound from '../assets/images/notFound.png';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ToCart from '../Components/ToCart';
 import Advertisement from '../Components/Advertisement';
 import Logo from '../assets/images/logo.png';
@@ -114,6 +114,7 @@ const Home = () => {
                     <div className="my-4 text-center">
                         <h1 className="font-bold text-2xl">
                             Foydalanuvchi ID: {userId}
+                            <Link to={'/cart'}>Cart</Link>
                         </h1>
                     </div>
                     {filteredData.length > 0 ? (
