@@ -7,15 +7,17 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Header from '../Components/Header';
 import axiosInstance from "../request/axios";
-import { UserID } from "../App";
+import { ThemeContext, UserID } from "../App";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
   const [isDisable, setIsDisable] = useState(false);
   const { userId } = useContext(UserID);
+  const { theme } = useContext(ThemeContext)
   const dispatch = useDispatch();
   console.log(cartItems)
+
   const notify = (message, type = 'success', options = {}) => {
     const toastMethod = toast[type] || toast.success;
 
@@ -27,7 +29,7 @@ function Cart() {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "dark",
+      theme: theme == 'light' ? "dark" : 'light',
       transition: Bounce,
       className: 'custom-toast',
       ...options,
@@ -69,7 +71,7 @@ function Cart() {
           <button
             onClick={() => {
               axiosInstance
-                .delete(`/cart/${userId}/${item.product.id}`)
+                .delete(`/cart/${userId}/${item.product.id}/`)
                 .then(() => {
                   setCartItems((prev) => prev.filter((i) => i.id !== item.id));
                   toast.dismiss();
@@ -163,7 +165,7 @@ function Cart() {
             <hr className="border-[#484A4E]" />
             <div className="flex justify-between mt-2">
               <span>Yetkazib berish</span>
-              <span className="text-[#00C17B]">Toshkentdan boshqa viloyatlarga 40 UZS</span>
+              <span className="text-[#00C17B]">Toshkent tashqarisi: 40 UZS</span>
             </div>
           </div>
           <div className="flex justify-between items-center mb-4 font-medium text-lg dark:text-white">

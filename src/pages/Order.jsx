@@ -81,7 +81,7 @@ function Order() {
       ]
     }
 
-      axiosInstance.post('/order/', JSON.stringify(orderData), {
+      axiosInstance.post('/order/', orderData, {
         headers: {
           'Content-Type': 'application/json',
         },
