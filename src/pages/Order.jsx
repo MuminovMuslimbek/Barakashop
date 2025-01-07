@@ -62,11 +62,11 @@ function Order() {
     const storedItems = JSON.parse(localStorage.getItem('count'));
 
     const formattedOrderItems = storedItems.map(item => ({
-      product: item.productId,
-      color: item.colorId,
-      size: item.sizeId,
+      product: item.product.id,
+      color: item.color.id,
+      size: item.size.id,
       quantity: item.quantity,
-      price: item.price ? item.price.toFixed(2) : '0.00' 
+      price: item.product.price ? item.price.toFixed(2) : '0.00'
     }));
 
     const orderData = {
