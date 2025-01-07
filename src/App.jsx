@@ -16,7 +16,7 @@ export const UserID = createContext(null)
 function App() {
   const [headerSearch, setHeaderSearch] = useState('');
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
-  const [userId, setUserId] = useState(6289101800)
+  const [userId, setUserId] = useState('')
 
   useEffect(() => {
     const body = document.body;
