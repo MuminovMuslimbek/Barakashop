@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-import { clear } from '../store/cartSlice';
 import axiosInstance from '../request/axios'
+import { PatternFormat } from 'react-number-format';
 
 function Order() {
   const [paymentMethod, setPaymentMethod] = useState('cash');
@@ -13,10 +13,7 @@ function Order() {
   const [address, setAddress] = useState('');
   const [selectedViloyat, setSelectedViloyat] = useState('');
   const [orderItems, setOrderItems] = useState([]);
-
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const notify = (message, type = 'success', options = {}) => {
     const toastMethod = toast[type] || toast.success;
 
@@ -40,9 +37,8 @@ function Order() {
       notify('Ism Familiyani kiriting!', 'error');
       return false;
     }
-    const phoneRegex = /^\+998\d{9}$/;
-    if (!phoneRegex.test(number)) {
-      notify('Telefon raqami noto\'g\'ri formatda!', 'error');
+    if (!number) {
+      notify('Telefon raqami kiritilmagan!', 'error');
       return false;
     }
     if (!selectedViloyat) {
@@ -74,39 +70,38 @@ function Order() {
         {
           "product": 1,
           "color": 1,
-          "size": 3,
+          "size": 1,
           "quantity": 1,
           "price": "1999.00"
         }
       ]
     }
 
-      axiosInstance.post('/order/', orderData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(() => {
-          notify("Buyurtma muvaffaqiyatli yuborildi!", "success", {
-            onClose: () => {
-              dispatch(clear());
-              navigate("/");
-            },
-          });
-        })
-        .catch((error) => {
-          notify('Xatolik yuz berdi. Iltimos qayta urinib ko\'ring.', 'error');
-          console.error(error);
-        })
-        .finally(() => {
-          localStorage.removeItem("cart");
-          setPaymentMethod("cash");
-          setDeliveryMethod("pickup");
-          setSelectedViloyat('');
-          setUser("");
-          setNumber("");
-          setAddress("");
+    axiosInstance.post('/order/', orderData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(() => {
+        notify("Buyurtma muvaffaqiyatli yuborildi!", "success", {
+          onClose: () => {
+            navigate("/");
+          },
         });
+      })
+      .catch((error) => {
+        notify('Xatolik yuz berdi. Iltimos qayta urinib ko\'ring.', 'error');
+        console.error(error);
+      })
+      .finally(() => {
+        localStorage.removeItem("cart");
+        setPaymentMethod("cash");
+        setDeliveryMethod("pickup");
+        setSelectedViloyat('');
+        setUser("");
+        setNumber("");
+        setAddress("");
+      });
   }
 
   // useEffect(() => {
@@ -123,12 +118,12 @@ function Order() {
       <div className="bg-[#e7e7e7] dark:bg-[#1D2024] mt-3 mb-2 p-2.5 rounded-xl">
         <p className="mb-2 font-semibold">To'lov Usuli</p>
         <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-2">
+          {/* <label className="flex items-center gap-2">
             <input type="radio" name="paymentMethod" value="online" checked={paymentMethod === 'online'} onChange={(e) => { setPaymentMethod(e.target.value) }} className="hidden peer" />
             <span className="flex justify-center items-center border-2 dark:border-white peer-checked:border-[#00C17B] peer-checked:bg-[#00C17B] border-black rounded-full w-5 h-5">
               <span className="bg-black dark:bg-white rounded-full w-3 h-3"></span>
             </span>Onlayn transfer
-          </label>
+          </label> */}
           <label className="flex items-center gap-2">
             <input type="radio" name="paymentMethod" value="cash" checked={paymentMethod === 'cash'} onChange={(e) => { setPaymentMethod(e.target.value) }} className="hidden peer" />
             <span className="flex justify-center items-center border-2 dark:border-white peer-checked:border-[#00C17B] peer-checked:bg-[#00C17B] border-black rounded-full w-5 h-5">
@@ -162,7 +157,7 @@ function Order() {
         </div>
         <div className="mb-4">
           <label className="block mb-1 text-sm dark:text-gray-300">Телефон</label>
-          <input value={number} onChange={(e) => { setNumber(e.target.value) }} type="text" placeholder="+998 (99) 999 99 99" className="border-gray-500 dark:bg-[#1D2024] p-2.5 border rounded-md focus:ring-2 focus:ring-[#00C17B] w-full dark:text-gray-300 focus:outline-none placeholder-gray-500" />
+          <PatternFormat format="+998 (##) ### ## ##" value={number} onChange={(e) => { setNumber(e.target.value) }} type="text" placeholder="+998 (99) 999 99 99" className="border-gray-500 dark:bg-[#1D2024] p-2.5 border rounded-md focus:ring-2 focus:ring-[#00C17B] w-full dark:text-gray-300 focus:outline-none placeholder-gray-500" />
           <p className="mt-1 text-gray-500 text-sm">Telefon raqamingizni kiriting</p>
         </div>
         <div className="mx-auto mb-4 max-w-[600px]">

@@ -111,23 +111,10 @@ const Home = () => {
                     <Advertisement />
                     <Search />
                     <Hero />
-                    <div className="my-4 text-center">
-                        <h1 className="font-bold text-2xl">
-                            Foydalanuvchi ID: {userId}
-                            <Link to={'/cart'}>Cart</Link>
-                        </h1>
-                    </div>
                     {filteredData.length > 0 ? (
                         <div className="gap-3 grid grid-cols-2 sm:grid-cols-3 px-3 pb-6 text-white">
                             {filteredData.map((product, index) => (
-                                <div
-                                    onClick={() => {
-                                        handleRedirect(product.name);
-                                    }}
-                                    key={index}
-                                    className={`relative bg-cover rounded-lg w-full h-[120px] shadow-sm shadow-black dark:shadow-white md:h-[150px] lg:h-[180px] transition-transform duration-300`}
-                                    style={{ backgroundImage: `url(${product.image})` }}
-                                >
+                                <div onClick={() => { handleRedirect(product.name); }} key={index} className={`relative bg-cover rounded-lg w-full h-[120px] shadow-sm shadow-black dark:shadow-white md:h-[150px] lg:h-[180px] transition-transform duration-300`} style={{ backgroundImage: `url(${product.image})` }}>
                                     <div className="absolute inset-0 bg-black bg-opacity-60 rounded-lg"></div>
                                     <h3 className="bottom-[10px] left-[10px] z-10 absolute max-w-[130px] font-bold text-sm sm:text-md md:text-lg leading-[20px]">
                                         {product.name}

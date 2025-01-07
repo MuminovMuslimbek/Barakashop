@@ -1,66 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const loadFromLocalStorage = () => {
-    const savedCart = localStorage.getItem("cart");
-    return savedCart ? JSON.parse(savedCart) : [];
+const initialState = {
+    cart: [],
+    totalCount: 0,
+    totalPrice: 0,
 };
-
-const saveToLocalStorage = (state) => {
-    localStorage.setItem("cart", JSON.stringify(state));
-};
-
-const initialState = loadFromLocalStorage();
 
 const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        add: (state, action) => {
-            const exist = state.find(
-                (item) =>
-                    item.id === action.payload.id &&
-                    item.color === action.payload.color &&
-                    item.size === action.payload.size
-            );
-            if (exist) {
-                exist.count = Number(exist.count);
-                exist.count += Number(action.payload.count);
-            } else {
-                state.push({ ...action.payload, count: Number(action.payload.count) });
+        setCart(state, action) {
+            state.cart = action.payload;
+        },
+        update(state, action) {
+            const item = state.cart.find((c) => c.id === action.payload.id);
+            if (item) {
+                item.quantity = action.payload.quantity;
             }
-            saveToLocalStorage(state);
-        },
-        remove: (state, action) => {
-            const updatedState = state.filter(
-                (item) =>
-                    !(
-                        item.id === action.payload.id &&
-                        item.color === action.payload.color &&
-                        item.size === action.payload.size
-                    )
-            );
-            saveToLocalStorage(updatedState);
-            return updatedState;
-        },
-        clear: () => {
-            const clearedState = [];
-            saveToLocalStorage(clearedState);
-            return clearedState;
-        },
-        update: (state, action) => {
-            state.forEach((item) => {
-                if (
-                    item.id === action.payload.id &&
-                    item.color === action.payload.color &&
-                    item.size === action.payload.size
-                ) {
-                    item.count = Number(action.payload.count);
+        },        
+        calculateTotal(state) {
+            let sum = 0;
+            let price = 0;
+            state.cart.forEach((c) => {
+                sum += c.quantity;
+                const productPrice = parseFloat(c.product.discount_price);
+                if (!isNaN(productPrice)) {
+                    price += productPrice * c.quantity;
                 }
             });
-            saveToLocalStorage(state);
+            state.totalCount = sum;
+            state.totalPrice = price;
         },
     },
 });
 
-export const { add, remove, clear, update } = cartSlice.actions;
-export default cartSlice.reducer
+export const { setCart, update, calculateTotal } = cartSlice.actions;
+export default cartSlice.reducer;

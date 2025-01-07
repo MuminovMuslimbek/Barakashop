@@ -17,7 +17,7 @@ function App() {
   const [headerSearch, setHeaderSearch] = useState('');
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
   const [userId, setUserId] = useState(6289101800)
-  
+
   useEffect(() => {
     const body = document.body;
     if (theme === 'light') {
@@ -27,7 +27,6 @@ function App() {
       body.classList.remove('light');
       body.classList.add('dark');
     }
-
     localStorage.setItem('theme', theme);
   }, [theme]);
 

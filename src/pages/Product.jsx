@@ -98,7 +98,7 @@ function Product() {
         </div>
       )}
       <Search />
-      <button onClick={() => { navigate(-1) }} className='top-[60px] left-2 z-50 sticky flex items-center gap-1 bg-black dark:bg-white mt-1 mb-1 p-2 rounded-md text-sm text-white dark:text-black capitalize'><img src={theme == 'light' ? lWhite : lBlack} className='w-4' />ortga</button>
+      <button onClick={() => { navigate('/') }} className='top-[60px] left-2 z-50 sticky flex items-center gap-1 bg-black dark:bg-white mt-1 mb-1 p-2 rounded-md text-sm text-white dark:text-black capitalize'><img src={theme == 'light' ? lWhite : lBlack} className='w-4' />ortga</button>
       <div
         className={`p-2.5 ${theme === 'light' ? 'bg-[#fbfafa] text-black' : 'text-white'
           }`}

@@ -20,7 +20,7 @@ function ProductDetails() {
   const [selectorSize, setSelectorSize] = useState(null);
   const [isDisable, setIsDisable] = useState(false);
   const { theme } = useContext(ThemeContext);
-  
+  console.log(data)
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -123,7 +123,7 @@ function ProductDetails() {
                     )) :
                     <SwiperSlide className="relative z-50 rounded-b-lg w-full h-96 object-center">
                       <img
-                        className="rounded-b-lg w-full h-96 object-center"
+                        className={`rounded-b-lg w-full h-96 object-center`}
                         src={data.category.image}
                         alt="Mahsulot rasmi"
                       />
@@ -180,7 +180,7 @@ function ProductDetails() {
                 <div
                   key={color.id}
                   onClick={() => setSelectorColor([color.id, color.name])}
-                  className={`rounded-lg w-16 h-20 cursor-pointer ${selectorColor?.[0] === color.id ? "border-4 dark:border-gray-300 border-gray-800" : ""
+                  className={`rounded-lg w-16 h-20 cursor-pointer border-black border-opacity-70 border dark:border-white ${selectorColor?.[0] === color.id ? "border-2 dark:border-gray-300 border-gray-800" : ""
                     }`}
                   style={{
                     backgroundImage: `url(${color.image || data.category.image})`,
@@ -201,7 +201,7 @@ function ProductDetails() {
                   <button
                     key={size.id}
                     onClick={() => setSelectorSize([size.id, size.size_name])}
-                    className={`dark:bg-gray-600 bg-gray-300 text-gray-600 border-black border-opacity-70 border dark:border-white dark:text-gray-200 rounded-lg w-12 h-14 font-medium text-sm ${selectorSize?.[0] === size.id ? "border-4 border-gray-800 dark:border-gray-300" : ""
+                    className={`dark:bg-gray-600 bg-gray-300 text-gray-600 border-black border-opacity-70 border dark:border-white dark:text-gray-200 rounded-lg w-12 h-14 font-medium text-sm ${selectorSize?.[0] === size.id ? "border-2 border-gray-800 dark:border-gray-300" : ""
                       }`}
                   >
                     {size.size_name.toUpperCase()}
