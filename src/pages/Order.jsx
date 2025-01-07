@@ -62,11 +62,11 @@ function Order() {
     const storedItems = JSON.parse(localStorage.getItem('count'));
 
     const formattedOrderItems = storedItems.map(item => ({
-      product: item.productId,  
-      color: item.colorId,      
-      size: item.sizeId,        
-      quantity: item.quantity,  
-      price: item.price.toFixed(2) 
+      product: item.productId,
+      color: item.colorId,
+      size: item.sizeId,
+      quantity: item.quantity,
+      price: item.price.toFixed(2) && item.price.toFixed(2)
     }));
 
     const orderData = {
@@ -78,7 +78,7 @@ function Order() {
       "address": { address },
       "order_items": formattedOrderItems
     }
-    
+
     axiosInstance.post('/order/', orderData, {
       headers: {
         'Content-Type': 'application/json',
