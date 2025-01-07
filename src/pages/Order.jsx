@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import axiosInstance from '../request/axios'
 import { PatternFormat } from 'react-number-format';
+import { UserID } from '../App';
 
 function Order() {
   const [paymentMethod, setPaymentMethod] = useState('cash');
@@ -12,11 +13,10 @@ function Order() {
   const [number, setNumber] = useState('');
   const [address, setAddress] = useState('');
   const [selectedViloyat, setSelectedViloyat] = useState('');
-  const [orderItems, setOrderItems] = useState([]);
+  const { userId, setUserId } = useContext(UserID)
   const navigate = useNavigate();
   const notify = (message, type = 'success', options = {}) => {
     const toastMethod = toast[type] || toast.success;
-
     toastMethod(message, {
       position: "top-center",
       autoClose: 3000,
@@ -59,24 +59,26 @@ function Order() {
       return;
     }
 
-    const orderData = {
-      "user": 5765144405,
-      "delivery_type": "delivery",
-      "payment_method": "cash",
-      "name": "Husanjon Azamov",
-      "phone": "8940014741",
-      "address": "12321",
-      "order_items": [
-        {
-          "product": 1,
-          "color": 1,
-          "size": 1,
-          "quantity": 1,
-          "price": "1999.00"
-        }
-      ]
-    }
+    const storedItems = JSON.parse(localStorage.getItem('count'));
 
+    const formattedOrderItems = storedItems.map(item => ({
+      product: item.productId,  
+      color: item.colorId,      
+      size: item.sizeId,        
+      quantity: item.quantity,  
+      price: item.price.toFixed(2) 
+    }));
+
+    const orderData = {
+      "user": { userId },
+      "delivery_type": { deliveryMethod },
+      "payment_method": { paymentMethod },
+      "name": { user },
+      "phone": { number },
+      "address": { address },
+      "order_items": formattedOrderItems
+    }
+    
     axiosInstance.post('/order/', orderData, {
       headers: {
         'Content-Type': 'application/json',

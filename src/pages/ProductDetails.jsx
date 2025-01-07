@@ -105,7 +105,7 @@ function ProductDetails() {
                 centeredSlides={false}
                 pagination={{ clickable: true }}
                 modules={[Autoplay, Pagination, Navigation]}
-                className="shadow-xl mb-2 detail mySwiper"
+                className="shadow-md mb-2 detail mySwiper"
               >
                 {
                   data.product_images.length > 0 ?
@@ -115,7 +115,7 @@ function ProductDetails() {
                         className="relative z-50 rounded-b-lg w-full h-96 object-center"
                       >
                         <img
-                          className="rounded-b-lg w-full h-96 object-center"
+                          className={`rounded-b-lg w-full h-96 object-center ${data.age_group === '18+' ? 'blur-[6px]' : ''}`}
                           src={value.image}
                           alt="Mahsulot rasmi"
                         />
@@ -123,7 +123,7 @@ function ProductDetails() {
                     )) :
                     <SwiperSlide className="relative z-50 rounded-b-lg w-full h-96 object-center">
                       <img
-                        className={`rounded-b-lg w-full h-96 object-center`}
+                        className={`rounded-b-lg w-full h-96 object-center ${data.age_group === '18+' ? 'blur-[6px]' : ''}`}
                         src={data.category.image}
                         alt="Mahsulot rasmi"
                       />

@@ -18,7 +18,6 @@ function Cart() {
   const { cart } = useSelector(state => state.cart)
   const [total, setTotal] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
-
   useEffect(() => {
     if (cart && Array.isArray(cart)) {
       let tp = 0;
@@ -56,6 +55,7 @@ function Cart() {
     axiosInstance
       .get(`cart/${userId}`)
       .then((response) => {
+        console.log(response)
         const fetchedProducts = response.data;
         const storedProducts = JSON.parse(localStorage.getItem("count")) || [];
         const updatedProducts = fetchedProducts.map((backendProduct) => {
@@ -93,7 +93,7 @@ function Cart() {
     const localStorageKey = "count";
     const storedItems = JSON.parse(localStorage.getItem(localStorageKey)) || [];
     const updatedItems = storedItems.map((storedItem) =>
-      storedItem.id === item.id
+      storedItem.id === item.id && storedItem.color.id === item.color.id && storedItem.size.id === item.size.id
         ? { ...storedItem, quantity: storedItem.quantity + 1 }
         : storedItem
     );
@@ -108,7 +108,7 @@ function Cart() {
     const storedItems = JSON.parse(localStorage.getItem(localStorageKey)) || [];
     if (item.quantity > 1) {
       const updatedItems = storedItems.map((storedItem) =>
-        storedItem.id === item.id
+        storedItem.id === item.id && storedItem.color.id === item.color.id && storedItem.size.id === item.size.id
           ? { ...storedItem, quantity: storedItem.quantity - 1 }
           : storedItem
       );
@@ -140,7 +140,7 @@ function Cart() {
                       dispatch(setCart(updatedCart));
                       const storedItems = JSON.parse(localStorage.getItem(localStorageKey)) || [];
                       const filteredItems = storedItems.filter(
-                        (storedItem) => storedItem.id !== item.id
+                        (storedItem) => storedItem.id !== item.id || storedItem.color.id !== item.color.id || storedItem.size.id !== item.size.id
                       );
                       localStorage.setItem(localStorageKey, JSON.stringify(filteredItems));
                     })
@@ -184,7 +184,7 @@ function Cart() {
       navigate("/order");
     }
   }
-
+console.log(cart)
   return (
     <>
       <Header />
