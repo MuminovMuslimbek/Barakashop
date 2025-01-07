@@ -55,7 +55,7 @@ function Cart() {
     axiosInstance
       .get(`cart/${userId}`)
       .then((response) => {
-        console.log(response)
+        console.log(response ,58)
         const fetchedProducts = response.data;
         const storedProducts = JSON.parse(localStorage.getItem("count")) || [];
         const updatedProducts = fetchedProducts.map((backendProduct) => {

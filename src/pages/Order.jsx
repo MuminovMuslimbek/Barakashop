@@ -51,7 +51,7 @@ function Order() {
     }
     return true;
   }
-
+  console.log(address)
   function handleSubmit(event) {
     event.preventDefault();
     const isValid = validate();
@@ -70,12 +70,12 @@ function Order() {
     }));
 
     const orderData = {
-      "user": { userId },
-      "delivery_type": { deliveryMethod },
-      "payment_method": { paymentMethod },
-      "name": { user },
-      "phone": { number },
-      "address": { address },
+      "user": userId,
+      "delivery_type": deliveryMethod,
+      "payment_method": paymentMethod,
+      "name": user,
+      "phone": number,
+      "address": address,
       "order_items": formattedOrderItems
     }
 
@@ -96,7 +96,7 @@ function Order() {
         console.error(error);
       })
       .finally(() => {
-        localStorage.removeItem("cart");
+        localStorage.removeItem("count");
         setPaymentMethod("cash");
         setDeliveryMethod("pickup");
         setSelectedViloyat('');
@@ -106,12 +106,12 @@ function Order() {
       });
   }
 
-  // useEffect(() => {
-  //   const cart = JSON.parse(localStorage.getItem('cart'));
-  //   if (!cart || cart.length === 0) {
-  //     navigate('/');
-  //   }
-  // }, [navigate]);
+  useEffect(() => {
+    const count = JSON.parse(localStorage.getItem('count'));
+    if (!count || count.length === 0) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   return (
     <form onSubmit={handleSubmit} className="bg-white dark:bg-black mx-auto p-2.5 max-w-[600px] text-black dark:text-white select-none">
