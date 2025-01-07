@@ -66,7 +66,7 @@ function Order() {
       color: item.color.id,
       size: item.size.id,
       quantity: item.quantity,
-      price: item.product.price ? item.price.toFixed(2) : '0.00'
+      price: item.product.discount_price
     }));
 
     const orderData = {
