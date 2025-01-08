@@ -21,6 +21,7 @@ function ProductDetails() {
   const [isDisable, setIsDisable] = useState(false);
   const { theme } = useContext(ThemeContext);
   const { userId, setUserId } = useContext(UserID);
+  const [isAdult, setIsAdult] = useState(() => JSON.parse(localStorage.getItem('isAdult')));
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -125,7 +126,7 @@ function ProductDetails() {
                         className="relative z-50 rounded-b-lg w-full h-96 object-center"
                       >
                         <img
-                          className={`rounded-b-lg w-full h-96 object-center ${data.age_group === '18+' ? 'blur-[6px]' : ''}`}
+                          className={`rounded-b-lg w-full h-96 object-center ${isAdult === false && data.age_group === '18+' ? 'blur-[6px]' : ''}`}
                           src={value.image}
                           alt="Mahsulot rasmi"
                         />
@@ -133,7 +134,7 @@ function ProductDetails() {
                     )) :
                     <SwiperSlide className="relative z-50 rounded-b-lg w-full h-96 object-center">
                       <img
-                        className={`rounded-b-lg w-full h-96 object-center ${data.age_group === '18+' ? 'blur-[6px]' : ''}`}
+                        className={`rounded-b-lg w-full h-96 object-center ${isAdult === false && data.age_group === '18+' ? 'blur-[6px]' : ''}`}
                         src={data.category.image}
                         alt="Mahsulot rasmi"
                       />

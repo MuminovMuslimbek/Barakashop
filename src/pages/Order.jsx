@@ -61,7 +61,7 @@ function Order() {
     }
     return true;
   }
-  console.log(address)
+  
   function handleSubmit(event) {
     event.preventDefault();
     const isValid = validate();
