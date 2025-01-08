@@ -255,7 +255,7 @@ function Cart() {
             <hr className="border-[#484A4E]" />
             <div className="flex justify-between mt-2">
               <span>Yetkazib berish</span>
-              <span className="text-[#00C17B]">Toshkent tashqarisi: 40 UZS</span>
+              <span className="text-[#00C17B]">Toshkent tashqarisi: 40.000 UZS</span>
             </div>
           </div>
           <div className="flex justify-between items-center mb-4 font-medium text-lg dark:text-white">
