@@ -28,7 +28,7 @@ function Product() {
       }
     }
   }, [isAdult, showModal, product]);
-  console.log(data)
+  
   useEffect(() => {
     setLoading(true);
     axiosInstance
