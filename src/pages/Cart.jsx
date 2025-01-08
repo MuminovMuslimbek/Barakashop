@@ -18,6 +18,7 @@ function Cart() {
   const { cart } = useSelector(state => state.cart)
   const [total, setTotal] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
+
   useEffect(() => {
     if (cart && Array.isArray(cart)) {
       let tp = 0;
@@ -55,10 +56,23 @@ function Cart() {
     axiosInstance
       .get(`cart/${userId}`)
       .then((response) => {
-        console.log(response ,58)
         const fetchedProducts = response.data;
         const storedProducts = JSON.parse(localStorage.getItem("count")) || [];
+        if (storedProducts.length === 0) {
+          const filteredProducts = fetchedProducts.filter(
+            (product) => product.quantity >= 1
+          );
+          localStorage.setItem("count", JSON.stringify(filteredProducts));
+          dispatch(setCart(filteredProducts));
+          return;
+        }
         const updatedProducts = fetchedProducts.map((backendProduct) => {
+          const isInLocalStorage = storedProducts.some(
+            (storedProduct) => storedProduct.id === backendProduct.id
+          );
+          if (!isInLocalStorage && backendProduct.quantity >= 1) {
+            return backendProduct;
+          }
           const matchingStoredProduct = storedProducts.find(
             (storedProduct) => storedProduct.id === backendProduct.id
           );
@@ -70,9 +84,8 @@ function Cart() {
               };
             }
             return matchingStoredProduct;
-          } else {
-            return backendProduct.quantity > 1 ? backendProduct : null;
           }
+          return null;
         }).filter(Boolean);
         const nonMatchingStoredProducts = storedProducts.filter(
           (storedProduct) =>
@@ -88,6 +101,7 @@ function Cart() {
         console.error(err);
       });
   }, [userId]);
+
 
   function handleIncrement(item) {
     const localStorageKey = "count";
@@ -184,7 +198,7 @@ function Cart() {
       navigate("/order");
     }
   }
-console.log(cart)
+
   return (
     <>
       <Header />
@@ -237,7 +251,7 @@ console.log(cart)
           </div>
           <div className="flex justify-between items-center mb-4 font-medium text-lg dark:text-white">
             <span>Jami</span>
-            <p>{isNaN(totalPrice) ? 0 : totalPrice.toFixed(2)} UZS</p>
+            <p>{isNaN(totalPrice) ? 0 : Math.trunc(totalPrice)} UZS</p>
           </div>
           <button
             onClick={handleClick}

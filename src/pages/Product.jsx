@@ -28,7 +28,7 @@ function Product() {
       }
     }
   }, [isAdult, showModal, product]);
-
+  console.log(data)
   useEffect(() => {
     setLoading(true);
     axiosInstance
@@ -140,9 +140,14 @@ function Product() {
                         value.promotion.map((promo, idx) => (
                           <div
                             key={promo.id || idx}
-                            className="top-1 left-1 absolute rounded-md"
+                            className="top-1 left-1 absolute bg-[#00C17B] rounded-md"
+                            style={{
+                              backgroundImage: `url(${promo.image})`,
+                              backgroundSize: "cover",
+                              backgroundPosition: "center",
+                            }}
                           >
-                            <p className='px-2 rounded-md text-[8px] text-white'>{promo.name}</p>
+                            <p className="px-2 rounded-md text-[8px] text-white">{promo.name}</p>
                           </div>
                         ))}
                     </div>

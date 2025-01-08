@@ -40,11 +40,11 @@ function Advertisement() {
         <>
             {
                 data.length ? (
-                    <div className="relative z-10 w-full [85.039px] h">
+                    <div className="relative z-10 w-full [80px] h">
                         {
                             data.length > 0 && (
-                                <a href={data[currentIndex]?.video_link}>
-                                    <video ref={videoRef} autoPlay muted className="w-full h-[85.039px] cursor-pointer object-cover" onEnded={handleMediaEnd} />
+                                <a target='_blank' href={data[currentIndex]?.video_link}>
+                                    <video ref={videoRef} autoPlay muted className="w-full h-[80px] cursor-pointer object-cover" onEnded={handleMediaEnd} />
                                 </a>
                             )
                         }

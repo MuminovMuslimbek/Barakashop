@@ -20,7 +20,7 @@ function ProductDetails() {
   const [selectorSize, setSelectorSize] = useState(null);
   const [isDisable, setIsDisable] = useState(false);
   const { theme } = useContext(ThemeContext);
-  console.log(data)
+  
   const navigate = useNavigate();
   const { id } = useParams();
 
