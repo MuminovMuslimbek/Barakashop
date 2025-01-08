@@ -15,6 +15,16 @@ function Order() {
   const [selectedViloyat, setSelectedViloyat] = useState('');
   const { userId, setUserId } = useContext(UserID)
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+    if (tg && tg.initDataUnsafe?.user?.id) {
+      setUserId(tg.initDataUnsafe.user.id);
+    } else {
+      setUserId('null');
+    }
+  }, []);
+
   const notify = (message, type = 'success', options = {}) => {
     const toastMethod = toast[type] || toast.success;
     toastMethod(message, {
