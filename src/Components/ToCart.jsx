@@ -16,7 +16,7 @@ function ToCart() {
     }, []);
 
     return (
-        <div onClick={() => { navigate('/cart'); }} className={`right-3 z-40 bottom-3 fixed flex justify-center items-center bg-black dark:bg-white shadow-lg p-2 rounded-[20px] cursor-pointer ${totalCount === 0 ? 'hidden' : 'block'}`} >
+        <div onClick={() => { navigate('/cart'); }} className={`right-3 z-40 bottom-3 fixed flex justify-center items-center bg-black dark:bg-white shadow-lg p-2 rounded-[20px] cursor-pointer`} >
             <span className="top-[5px] right-[5px] absolute flex justify-center items-center bg-white dark:bg-black rounded-full w-4 h-4 font-bold text-[10px] text-black dark:text-white"> {totalCount} </span>
             <img src={theme === 'light' ? CartWhite : Cart} alt="Cart" className="w-10 h-10" />
         </div>
