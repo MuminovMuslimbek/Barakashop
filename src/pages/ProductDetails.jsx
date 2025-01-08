@@ -12,7 +12,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 import './detail.css';
-import { ThemeContext } from "../App";
+import { ThemeContext, UserID } from "../App";
 
 function ProductDetails() {
   const [data, setData] = useState(null);
@@ -20,9 +20,19 @@ function ProductDetails() {
   const [selectorSize, setSelectorSize] = useState(null);
   const [isDisable, setIsDisable] = useState(false);
   const { theme } = useContext(ThemeContext);
-  
+  const { userId, setUserId } = useContext(UserID);
+
   const navigate = useNavigate();
   const { id } = useParams();
+
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+    if (tg && tg.initDataUnsafe?.user?.id) {
+      setUserId(tg.initDataUnsafe.user.id);
+    } else {
+      setUserId('null');
+    }
+  }, []);
 
   const notify = (message, type = 'success', options = {}) => {
     const toastMethod = toast[type] || toast.success;
@@ -68,7 +78,7 @@ function ProductDetails() {
       product_id: data.id,
       color_id: selectorColor[0],
       size_id: selectorSize[0],
-      user_id: 6289101800,
+      user_id: userId,
       quantity: 1,
     };
 
