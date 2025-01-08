@@ -12,12 +12,21 @@ import { ThemeContext, UserID } from "../App";
 function Cart() {
   const navigate = useNavigate();
   const [isDisable, setIsDisable] = useState(false);
-  const { userId } = useContext(UserID);
+  const { userId, setUserId } = useContext(UserID);
   const { theme } = useContext(ThemeContext)
   const dispatch = useDispatch();
   const { cart } = useSelector(state => state.cart)
   const [total, setTotal] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
+
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+    if (tg && tg.initDataUnsafe?.user?.id) {
+      setUserId(tg.initDataUnsafe.user.id);
+    } else {
+      setUserId('null');
+    }
+  }, []);
 
   useEffect(() => {
     if (cart && Array.isArray(cart)) {
