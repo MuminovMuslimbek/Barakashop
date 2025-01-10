@@ -176,7 +176,7 @@ function Order() {
             Viloyatingizni tanlang:
           </label>
           <select id="viloyat" value={selectedViloyat} onChange={(e) => setSelectedViloyat(e.target.value)} className="border-gray-500 bg-transparent bg-white dark:bg-[#1D2024] p-2.5 border rounded-lg focus:ring-2 focus:ring-[#00C17B] w-full text-[16px] dark:text-white focus:outline-none" >
-            <option className='bg-white dark:bg-black text-black dark:text-white' disabled value="">Toshkentdan tashqariga: 40 ming so'm.</option>
+            <option className='bg-white dark:bg-black text-black dark:text-white' value="Toshkent Shahar">Toshkentdan shahridan tashqariga: 40 ming so'm.</option>
             <option className='bg-white dark:bg-black text-black dark:text-white' value="Andijon">Andijon</option>
             <option className='bg-white dark:bg-black text-black dark:text-white' value="Buxoro">Buxoro</option>
             <option className='bg-white dark:bg-black text-black dark:text-white' value="Jizzax">Jizzax</option>
