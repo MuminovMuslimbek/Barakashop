@@ -81,7 +81,8 @@ function Order() {
       "name": user,
       "phone": number,
       "address": address,
-      "order_items": formattedOrderItems
+      "order_items": formattedOrderItems,
+      "country": selectedViloyat,
     }
 
     axiosInstance.post('/order/', orderData, {
