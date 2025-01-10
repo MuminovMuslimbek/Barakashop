@@ -11,7 +11,7 @@ function Order() {
   const [user, setUser] = useState('');
   const [number, setNumber] = useState('');
   const [address, setAddress] = useState('');
-  const [selectedViloyat, setSelectedViloyat] = useState('');
+  const [selectedViloyat, setSelectedViloyat] = useState('Toshkent Shahar');
   const { userId, setUserId } = useContext(UserID)
   const navigate = useNavigate();
 
@@ -50,17 +50,13 @@ function Order() {
       notify('Telefon raqami kiritilmagan!', 'error');
       return false;
     }
-    if (!selectedViloyat) {
-      notify('Viloyatingizni tanglang!', 'error');
-      return false;
-    }
     if (!address) {
       notify('Iltimos manzilingizni kiriting!', 'error');
       return false;
     }
     return true;
   }
-  
+
   function handleSubmit(event) {
     event.preventDefault();
     const isValid = validate();
