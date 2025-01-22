@@ -8,7 +8,7 @@ import NotFound from '../assets/images/notFound.png';
 import { Link, useNavigate } from 'react-router-dom';
 import ToCart from '../Components/ToCart';
 import Advertisement from '../Components/Advertisement';
-import Logo from '../assets/images/logo.png';
+import Logo from '../assets/images/logo.jpg';
 
 const Home = () => {
     const { headerSearch } = useContext(HeaderSearch);
@@ -91,7 +91,7 @@ const Home = () => {
         >
             {showModal && (
                 <div className="z-50 fixed inset-0 flex justify-center items-center bg-black">
-                    <img src={Logo} alt="Logo" className="w-36 h-36 animate-pulse" />
+                    <img src={Logo} alt="Logo" className="rounded-full w-36 h-36 animate-pulse" />
                 </div>
             )}
             {loading ? (

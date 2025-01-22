@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/images/logo.png';
+import Logo from '../assets/images/logo.jpg';
 import Moon from '../assets/images/icon/moon.svg';
 import Sun from '../assets/images/icon/sun.svg';
 import { ThemeContext } from '../App';
@@ -21,7 +21,7 @@ function Header() {
             <Link to="/">
                 <img
                     src={Logo}
-                    className="w-10 transition-all"
+                    className="rounded-full w-10 transition-all"
                     alt="Logo"
                 />
             </Link>
