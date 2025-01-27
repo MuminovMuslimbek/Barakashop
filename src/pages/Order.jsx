@@ -6,7 +6,7 @@ import { PatternFormat } from 'react-number-format';
 import { UserID } from '../App';
 
 function Order() {
-  const [paymentMethod, setPaymentMethod] = useState('cash');
+  const [paymentMethod, setPaymentMethod] = useState('Naqt pul');
   const [deliveryMethod, setDeliveryMethod] = useState('pickup');
   const [user, setUser] = useState('');
   const [number, setNumber] = useState('');
@@ -103,7 +103,7 @@ function Order() {
       })
       .finally(() => {
         localStorage.removeItem("count");
-        setPaymentMethod("cash");
+        setPaymentMethod("Naqt pul");
         setDeliveryMethod("pickup");
         setSelectedViloyat('');
         setUser("");
@@ -133,7 +133,7 @@ function Order() {
             </span>Onlayn transfer
           </label> */}
           <label className="flex items-center gap-2">
-            <input type="radio" name="paymentMethod" value="cash" checked={paymentMethod === 'cash'} onChange={(e) => { setPaymentMethod(e.target.value) }} className="hidden peer" />
+            <input type="radio" name="paymentMethod" value="Naqt pul" checked={paymentMethod === 'Naqt pul'} onChange={(e) => { setPaymentMethod(e.target.value) }} className="hidden peer" />
             <span className="flex justify-center items-center border-2 dark:border-white peer-checked:border-[#00C17B] peer-checked:bg-[#00C17B] border-black rounded-full w-5 h-5">
               <span className="bg-black dark:bg-white rounded-full w-3 h-3"></span>
             </span>Kuryerga naqd pul
