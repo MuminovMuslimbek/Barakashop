@@ -10,7 +10,7 @@ BarakaShop – bu onlayn do‘kon bo‘lib, istalgan narsani topish mumkin bo‘
 - 🚀 **Foydalanuvchilarga qulay interfeys** – tezkor, oddiy va intuitiv dizayn.
 
 ## 📌 Saytga tashrif buyuring:
-🔗 [BarakaShop Web App](https://t.me.vercel.app)
+🔗 [BarakaShop Web App](https://t.me/barakashopbot)
 
 ## 🛠 O‘rnatish va Ishga Tushirish
 
